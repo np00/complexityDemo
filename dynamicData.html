@@ -1,0 +1,348 @@
+<!doctype html>
+<html>
+<head>
+    <title>Network | DataSet</title>
+
+    <style type="text/css">
+        html, body {
+            font: 11pt arial;
+        }
+
+        h1 {
+            font-size: 150%;
+            margin: 5px 0;
+        }
+
+        h2 {
+            font-size: 100%;
+            margin: 5px 0;
+        }
+
+        table.view {
+            width: 100%;
+        }
+
+        table td {
+            vertical-align: top;
+        }
+
+        table table {
+            background-color: #f5f5f5;
+            border: 1px solid #e5e5e5;
+        }
+
+        table table td {
+            vertical-align: middle;
+        }
+
+        input[type=text], pre {
+            border: 1px solid lightgray;
+        }
+
+        pre {
+            margin: 0;
+            padding: 5px;
+            font-size: 10pt;
+        }
+
+        #network {
+            width: 100%;
+            height: 800px;
+            border: 1px solid lightgray;
+        }
+    </style>
+
+    <script type="text/javascript" src="lib/vis.min.js"></script>
+    <script type="text/javascript" src="lib/rdfstore.js"></script>
+    <link href="css/vis.min.css" rel="stylesheet" type="text/css"/>
+
+    <script type="text/javascript">
+        var nodes, edges, network;
+
+        // convenience method to stringify a JSON object
+        function toJSON(obj) {
+            return JSON.stringify(obj, null, 4);
+        }
+
+        function addNode() {
+            try {
+                nodes.add({
+                    id: document.getElementById('node-id').value,
+                    label: document.getElementById('node-label').value
+                });
+            }
+            catch (err) {
+                alert(err);
+            }
+        }
+
+        function updateNode() {
+            try {
+                nodes.update({
+                    id: document.getElementById('node-id').value,
+                    label: document.getElementById('node-label').value
+                });
+            }
+            catch (err) {
+                alert(err);
+            }
+        }
+        function removeNode() {
+            try {
+                nodes.remove({id: document.getElementById('node-id').value});
+            }
+            catch (err) {
+                alert(err);
+            }
+        }
+
+        function addEdge() {
+            try {
+                edges.add({
+                    id: document.getElementById('edge-id').value,
+                    from: document.getElementById('edge-from').value,
+                    to: document.getElementById('edge-to').value,
+                    label: document.getElementById('edge-label').value
+                });
+            }
+            catch (err) {
+                alert(err);
+            }
+        }
+        function updateEdge() {
+            try {
+                edges.update({
+                    id: document.getElementById('edge-id').value,
+                    from: document.getElementById('edge-from').value,
+                    to: document.getElementById('edge-to').value,
+                    label: document.getElementById('edge-label').value
+                });
+            }
+            catch (err) {
+                alert(err);
+            }
+        }
+        function removeEdge() {
+            try {
+                edges.remove({id: document.getElementById('edge-id').value});
+            }
+            catch (err) {
+                alert(err);
+            }
+        }
+
+        function draw() {
+            // create an array with nodes
+            nodes = new vis.DataSet();
+            nodes.on('*', function () {
+                document.getElementById('nodes').innerHTML = JSON.stringify(nodes.get(), null, 4);
+            });
+            nodes.add([
+                {id: '1', label: 'National Tawain University'},
+                {id: '2', label: 'Ecole des Mines de Saint Etienne Gardannes'},
+                {id: '3', label: 'TH Deggendorf'},
+                {id: '4', label: 'Clemson University'},
+                {id: '5', label: 'TM3 Software GmbH'},
+                {id: '6', label: 'National Tsing Hua University Taiwan'},
+                {id: '7', label: 'FabTime'},
+                {id: '8', label: 'Arizona state University'},
+                {id: '9', label: 'Hochschule Muenchen'},
+                {id: '10', label: 'HTW Dresden'},
+                {id: '11', label: 'Morth California State University'},
+                {id: '12', label: 'TU Muenchen'},
+                {id: '13', label: 'SMU'},
+                {id: '14', label: 'Fraunhofer IPA'},
+
+                // next node
+                {id: '15', label: 'Nokia Siemens Network'},
+                {id: '16', label: 'MIT'},
+                {id: '17', label: 'Stanford University'},
+                {id: '18', label: 'Kobe University'},
+
+                                // next node
+                {id: '20', label: 'Fraunhofer IAIS'},
+                {id: '21', label: 'LUCID'},
+                {id: '22', label: 'Niklas Petersen'},
+                {id: '23', label: 'Linked valUe ChaIn Data'},
+                {id: '24', label: 'Research Project'},
+                {id: '25', label: 'http://www.lucid-project.org/', shape: 'box'},
+                {id: '26', label: 'SCORVoc: Vocabulary-based Information Integration and Exchange in Supply Networks', shape: 'box'},
+                {id: '27', label: 'Research Paper'},
+                {id: '28', label: 'http://eis.iai.uni-bonn.de/upload/paper/ICSC_2016_paper_63.pdf', shape: 'box'},
+            ]);
+
+            nodes.add([
+                {id: '100', label: 'efficiency increase in supply chain', color: {background:'yellow', border:'purple'}},
+                {id: '101', label: 'globalization and localization continues', color: {background:'yellow', border:'purple'}},
+
+
+
+            ]);
+
+            edges = new vis.DataSet();
+            edges.on('*', function () {
+                document.getElementById('edges').innerHTML = JSON.stringify(edges.get(), null, 4);
+            });
+            edges.add([
+                {id: '1', from: '1', to: '100'},
+                {id: '2', from: '2', to: '100'},
+                {id: '3', from: '3', to: '100'},
+                {id: '4', from: '4', to: '100'},
+                {id: '5', from: '5', to: '100'},
+                {id: '6', from: '6', to: '100'},
+                {id: '7', from: '7', to: '100'},
+                {id: '8', from: '8', to: '100'},
+                {id: '9', from: '9', to: '100'},
+                {id: '10', from: '10', to: '100'},
+                {id: '11', from: '11', to: '100'},
+                {id: '12', from: '12', to: '100'},
+                {id: '13', from: '13', to: '100'},
+                {id: '14', from: '14', to: '100'},
+
+                // next node
+                {id: '15', from: '9', to: '101'},
+                {id: '16', from: '15', to: '101'},
+                {id: '17', from: '16', to: '101'},
+                {id: '18', from: '17', to: '101'},
+                {id: '19', from: '18', to: '101'},
+
+                // next node
+                {id: '20', from: '20', to: '100', arrows:'to',label:'focusOn'},
+                {id: '21', from: '20', to: '21', arrows:'to', label:'worksOn'},
+                {id: '22', from: '21', to: '23', arrows:'to', label:'isAbbreviationFor'},
+                {id: '23', from: '22', to: '20', arrows:'to', label:'worksFor'},
+                {id: '24', from: '21', to: '24', arrows:'to', label:'is-a'},
+                {id: '26', from: '21', to: '25', arrows:'to', label:'hasHomepage'},
+                {id: '27', from: '22', to: '26', arrows:'to', label:'isAuthorOf'},
+                {id: '28', from: '21', to: '26', arrows:'to', label:'fundedBy'},
+                {id: '29', from: '26', to: '27', arrows:'to', label:'is-a'},
+                {id: '30', from: '26', to: '28', arrows:'to', label:'hasFile'},
+             //   {id: '25', from: '21', to: '24', arrows:'to', label:'is-a'},
+            ]);
+
+            // create a network
+            var container = document.getElementById('network');
+            var data = {
+                nodes: nodes,
+                edges: edges
+            };
+              var options = {  
+                layout: { },
+                   nodes:{  
+                        color: {
+                              background: 'pink',
+                              border: 'purple'}},
+                  edges:{
+                         font: {
+                              color: 'black',
+                              size: 12, // px
+                              face: 'arial',
+                              background: 'white',
+                              strokeWidth: 2, // px
+                              strokeColor: '#ffffff',
+                              align:'horizontal'
+                }}};
+
+            network = new vis.Network(container, data, options);
+
+        }
+
+    </script>
+    <script src="../../googleAnalytics.js"></script>
+</head>
+
+<body onload="draw();">
+
+<p>
+    Quick Demo @ np00
+</p>
+
+<h1>Adjust</h1>
+<table>
+    <tr>
+        <td>
+            <h2>Node</h2>
+            <table>
+                <tr>
+                    <td></td>
+                    <td><label for="node-id">Id</label></td>
+                    <td><input id="node-id" type="text" value="6"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><label for="node-label">Label</label></td>
+                    <td><input id="node-label" type="text" value="Node 6"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Action</td>
+                    <td>
+                        <button id="node-add" onclick="addNode();">Add</button>
+                        <button id="node-update" onclick="updateNode();">Update</button>
+                        <button id="node-remove" onclick="removeNode();">Remove</button>
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td>
+            <h2>Edge</h2>
+            <table>
+                <tr>
+                    <td></td>
+                    <td><label for="edge-id">Id</label></td>
+                    <td><input id="edge-id" type="text" value="5"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><label for="edge-from">From</label></td>
+                    <td><input id="edge-from" type="text" value="3"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><label for="edge-to">To</label></td>
+                    <td><input id="edge-to" type="text" value="4"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><label for="edge-label">Label</label></td>
+                    <td><input id="edge-label" type="text" value="Edge 6"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Action</td>
+                    <td>
+                        <button id="edge-add" onclick="addEdge();">Add</button>
+                        <button id="edge-update" onclick="updateEdge();">Update</button>
+                        <button id="edge-remove" onclick="removeEdge();">Remove</button>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+</table>
+
+<h1>View</h1>
+<table class="view">
+    <tr height="500">
+        <td colspan="2" width="100%">
+            <h2>Network</h2>
+
+            <div id="network"></div>
+        </td>
+    </tr>
+    <tr>
+        <td width="50%">
+            <h2 >Nodes</h2>
+            <pre id="nodes"></pre>
+        </td>
+
+        <td width="50%">
+            <h2 >Edges</h2>
+            <pre id="edges"></pre>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>
